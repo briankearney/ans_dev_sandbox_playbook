@@ -34,6 +34,12 @@ cd $PLAYBOOK_PATH &&\
       else
          echo "roles/ directory not present — skipping role check"
    fi
+   if [ $(ansible-galaxy collection list | grep -q ansible\.posix) ]
+      then
+         :
+      else
+         ansible-galaxy collection install ansible.posix
+   fi
    ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --inventory inventory/main.yml playbooks/sample_playbook.yml
 
 podman container stop ansible_target
