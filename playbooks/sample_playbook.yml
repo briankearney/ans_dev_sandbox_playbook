@@ -1,0 +1,17 @@
+---
+- name: Apply ans_dev_sandbox_role to localhost
+  hosts: all
+  gather_facts: false
+  roles:
+    - role: ans_dev_sandbox_role
+      vars:
+        ans_dev_sandbox_role_example_message: "{{ saample_message }}"
+  
+  # cleanup tasks that run after roles
+  tasks:
+    - name: Remove temporary directory created by ans_dev_sandbox_role
+      ansible.builtin.file:
+        path: "{{ temp_dir_results.path }}"
+        state: absent
+      when: temp_dir_results is defined and temp_dir_results.path is defined
+...

@@ -3,10 +3,6 @@
 **/vault-pw.txt
 **/__pycache__
 hosts.yml
-inventory/*
-!inventory/template
-!inventory/hosts.example
-!inventory/hosts.example.yml
 .venv
 .cjob
 *.out
@@ -24,6 +20,9 @@ roles/*
 pipeline-scripts/
 test/
 ansible.cfg
+.ansible/
+.vscode/
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
