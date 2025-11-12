@@ -1,6 +1,7 @@
-#!/bin/bash -x
+#!/bin/bash
 
-set -euo pipefail
+# set -euo pipefail
+set -o pipefail
 
 # Deactivate any existing virtual environment
 deactivate 2>/dev/null || true
