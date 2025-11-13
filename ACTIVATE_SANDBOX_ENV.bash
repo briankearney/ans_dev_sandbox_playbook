@@ -18,6 +18,17 @@ get_script_dir() {
 export PLAYBOOK_PATH="$(get_script_dir)"
 cd "$PLAYBOOK_PATH" || return 1
 
+# Configure Ansible environment
+export ANSIBLE_DISPLAY_ARGS_TO_STDOUT=false
+export ANSIBLE_CALLBACKS_ENABLED='profile_tasks'
+export ANSIBLE_LOAD_CALLBACK_PLUGINS=true
+export ANSIBLE_LOG_PATH=./ansible.log
+export ANSIBLE_ROLES_PATH=roles
+export ANSIBLE_FILTER_PLUGINS=plugins
+export ANSIBLE_LIBRARY=library
+export ANSIBLE_CALLBACK_RESULT_FORMAT=yaml
+export ANSIBLE_VAULT_PASSWORD_FILE="$PLAYBOOK_PATH/vault-pw.txt"
+
 # Activate existing venv or create a new one
 if [[ -d .venv ]]; then
     # shellcheck disable=SC1091
@@ -132,18 +143,6 @@ source ./.venv/bin/activate
 VENV_PY="$(pwd)/.venv/bin/python"
 "$VENV_PY" -m pip install --upgrade pip
 "$VENV_PY" -m pip install ansible-dev-tools
-
-
-# Configure Ansible environment
-export ANSIBLE_DISPLAY_ARGS_TO_STDOUT=false
-export ANSIBLE_CALLBACKS_ENABLED='profile_tasks'
-export ANSIBLE_LOAD_CALLBACK_PLUGINS=true
-export ANSIBLE_LOG_PATH=./ansible.log
-export ANSIBLE_ROLES_PATH=roles
-export ANSIBLE_FILTER_PLUGINS=plugins
-export ANSIBLE_LIBRARY=library
-export ANSIBLE_CALLBACK_RESULT_FORMAT=yaml
-export ANSIBLE_VAULT_PASSWORD_FILE="$PLAYBOOK_PATH/vault-pw.txt"
 
 # Convenient alias for decrypting vaulted items
 alias avdad='python "$PLAYBOOK_PATH/DECRYPT_VAULTED_ITEMS.py"'
