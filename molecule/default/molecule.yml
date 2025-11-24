@@ -43,12 +43,8 @@ verifier:
 scenario:
   name: default
   test_sequence:
-    - dependency
     - syntax
-    - create
     - prepare
     - converge
     - idempotence
     - verify
-    - cleanup
-    - destroy

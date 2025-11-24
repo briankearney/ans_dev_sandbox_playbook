@@ -50,7 +50,6 @@ verifier:
 scenario:
   name: with-linting
   test_sequence:
-    - dependency
     - syntax
     - prepare
     - converge

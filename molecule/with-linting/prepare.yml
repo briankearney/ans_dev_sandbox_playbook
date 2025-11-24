@@ -7,15 +7,12 @@
   connection: local
 
   tasks:
-    - name: Ensure roles directory exists
-      ansible.builtin.file:
-        path: "{{ playbook_dir }}/../../roles"
-        state: directory
-        mode: "0755"
+    - name: Verify Python environment
+      ansible.builtin.debug:
+        msg: "Python interpreter: {{ ansible_playbook_python }}"
 
-    - name: Install required roles from requirements.yml
-      ansible.builtin.command:
-        cmd: ansible-galaxy install -r {{ playbook_dir }}/../../roles/requirements.yml --roles-path {{ playbook_dir }}/../../roles --force --ignore-errors
-      changed_when: true
-      register: galaxy_install
-      failed_when: false  # Don't fail if role is already present locally
+    - name: Verify roles directory exists
+      ansible.builtin.stat:
+        path: "{{ playbook_dir }}/../../roles/ans_dev_sandbox_role"
+      register: role_dir
+      failed_when: not role_dir.stat.exists

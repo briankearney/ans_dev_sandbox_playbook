@@ -42,11 +42,7 @@ verifier:
 scenario:
   name: localhost-only
   test_sequence:
-    - dependency
     - syntax
-    - create
     - prepare
     - converge
     - verify
-    - cleanup
-    - destroy

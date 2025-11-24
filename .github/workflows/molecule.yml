@@ -51,6 +51,10 @@ jobs:
           ansible-lint --version
           yamllint --version
 
+      - name: Install Ansible roles
+        run: |
+          ansible-galaxy install -r roles/requirements.yml --roles-path roles --force
+
       - name: Set Ansible environment variables (enterprise-safe)
         run: |
           export UNIT_TESTING=true
