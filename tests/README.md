@@ -59,7 +59,7 @@ All unit tests run automatically via GitHub Actions on every push and pull reque
 - Manual workflow dispatch
 
 **Matrix Testing**:
-- Python versions: 3.9, 3.10, 3.11, 3.12
+- Python versions: 3.10, 3.11, 3.12
 - All tests run across all Python versions
 
 **Jobs**:

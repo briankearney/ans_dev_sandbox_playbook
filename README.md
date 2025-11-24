@@ -89,7 +89,7 @@ This repository includes comprehensive unit tests for both helper scripts and Py
 
 **Automated CI/CD:**
 - All unit tests run automatically via GitHub Actions (see badges above)
-- Matrix testing across Python 3.9, 3.10, 3.11, and 3.12
+- Matrix testing across Python 3.10, 3.11, and 3.12
 - Test results visible in the [Actions tab](https://github.com/briankearney/ans_dev_sandbox_playbook/actions)
 
 **Bash Script Tests:**
@@ -151,7 +151,7 @@ ansible-lint playbooks/ molecule/
 
 **CI/CD Integration:**
 - GitHub Actions workflow runs all Molecule scenarios on push/PR
-- Matrix testing across Python 3.9, 3.10, 3.11, and 3.12
+- Matrix testing across Python 3.10, 3.11, and 3.12
 - Automated linting validation
 
 For detailed Molecule testing documentation, see [`molecule/README.md`](molecule/README.md).

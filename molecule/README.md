@@ -14,7 +14,7 @@ All scenarios use the **delegated** driver, which runs tests directly on the loc
 
 ## Prerequisites
 
-- Python 3.9 or higher
+- Python 3.10 or higher
 - Ansible 2.9 or higher
 - Molecule 6.0 or higher
 - ansible-lint 6.0 or higher
@@ -179,7 +179,7 @@ yamllint . && ansible-lint
 - Manual workflow dispatch
 
 **Matrix Testing**:
-- Python versions: 3.9, 3.10, 3.11, 3.12
+- Python versions: 3.10, 3.11, 3.12
 - All three scenarios: default, localhost-only, with-linting
 - Total: 12 test combinations
 
