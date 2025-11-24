@@ -10,7 +10,7 @@
   tasks:
     - name: Verify Python interpreter is available
       ansible.builtin.command:
-        cmd: "{{ ansible_python_interpreter | default('python3') }} --version"
+        cmd: "{{ ansible_playbook_python }} --version"
       register: python_version
       changed_when: false
       failed_when: python_version.rc != 0
