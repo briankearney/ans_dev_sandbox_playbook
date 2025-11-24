@@ -37,7 +37,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install molecule ansible-core ansible-lint yamllint pytest-testinfra
+          pip install -r requirements.txt
 
       - name: Display versions
         run: |
@@ -81,7 +81,7 @@ jobs:
       - name: Install linting tools
         run: |
           python -m pip install --upgrade pip
-          pip install ansible-core ansible-lint yamllint
+          pip install -r requirements.txt
 
       - name: Run yamllint
         run: |

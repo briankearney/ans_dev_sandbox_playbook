@@ -145,7 +145,7 @@ source ./.venv/bin/activate
 # Upgrade pip and install tools using the venv's python
 VENV_PY="$(pwd)/.venv/bin/python"
 "$VENV_PY" -m pip install --upgrade pip
-"$VENV_PY" -m pip install ansible-dev-tools jmespath molecule-plugins pytest-testinfra
+"$VENV_PY" -m pip install -r requirements.txt
 
 # Convenient alias for decrypting vaulted items
 alias avdad='python "$PLAYBOOK_PATH/DECRYPT_VAULTED_ITEMS.py"'

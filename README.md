@@ -52,6 +52,7 @@ This approach provides:
 **Prerequisites**
 - Ansible (recommended 2.9+ or a recent 2.14+ depending on your environment)
 - Python virtual environment (optional but recommended)
+- Python dependencies (see `requirements.txt`)
 
 Quickstart (from repository root):
 
@@ -72,6 +73,14 @@ Alternate helper (wrapper):
 # Make the wrapper executable then run it
 chmod +x RUN_PLAYBOOK.bash
 ./RUN_PLAYBOOK.bash
+```
+
+**Python Dependencies:**
+
+All Python dependencies are defined in `requirements.txt`. The `ACTIVATE_SANDBOX_ENV.bash` script automatically creates a virtual environment and installs these dependencies. You can also install them manually:
+
+```bash
+pip install -r requirements.txt
 ```
 
 Testing:

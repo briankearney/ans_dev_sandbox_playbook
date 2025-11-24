@@ -1,0 +1,21 @@
+# Python dependencies for ans_dev_sandbox_playbook
+# This file contains all Python packages required for development and testing
+
+# Core Ansible development tools
+# Includes ansible-core, ansible-lint, molecule, and other essential tools
+ansible-dev-tools
+
+# JMESPath for JSON query support in Ansible
+jmespath
+
+# Molecule plugins for testing
+molecule-plugins
+
+# Pytest infrastructure testing plugin for Molecule
+pytest-testinfra
+
+# YAML parsing library (required by DECRYPT_VAULTED_ITEMS.py)
+PyYAML
+
+# Syntax highlighting library (required by DECRYPT_VAULTED_ITEMS.py)
+pygments
