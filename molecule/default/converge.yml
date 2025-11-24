@@ -1,0 +1,29 @@
+---
+# Molecule converge playbook for default scenario
+# This is the main playbook that gets tested
+
+- name: Converge - Test sample_playbook.yml
+  hosts: localhost
+  gather_facts: false
+  connection: local
+
+  vars:
+    # Test with custom message to verify variable handling
+    sample_message: "Hello from Molecule test"
+
+  tasks:
+    - name: Include the sample playbook tasks
+      ansible.builtin.include_role:
+        name: ans_dev_sandbox_role
+
+    - name: Verify role execution
+      ansible.builtin.debug:
+        msg: "Role ans_dev_sandbox_role executed successfully"
+
+  post_tasks:
+    - name: Clean up temporary directory created by ans_dev_sandbox_role
+      ansible.builtin.file:
+        path: "{{ temp_dir_results.path }}"
+        state: absent
+      when: temp_dir_results is defined and temp_dir_results.path is defined
+      failed_when: false

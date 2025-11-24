@@ -23,6 +23,11 @@ ansible.cfg
 .vscode/
 ssh_keys/
 
+# Molecule testing
+.molecule/
+molecule/**/.cache/
+molecule/**/ansible.log
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]

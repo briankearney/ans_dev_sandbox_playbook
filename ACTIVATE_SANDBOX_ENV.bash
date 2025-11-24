@@ -29,13 +29,6 @@ export ANSIBLE_LIBRARY=library
 export ANSIBLE_CALLBACK_RESULT_FORMAT=yaml
 export ANSIBLE_VAULT_PASSWORD_FILE="$PLAYBOOK_PATH/vault-pw.txt"
 
-# Activate existing venv or create a new one
-if [[ -d .venv ]]; then
-    # shellcheck disable=SC1091
-    source ./.venv/bin/activate
-    return 0
-fi
-
 # Find suitable Python interpreter
 find_python() {
     # Use a newline-separated string for portability when sourcing the script
@@ -114,6 +107,16 @@ sys.exit(2)
 '
 }
 
+# Activate existing venv or create a new one
+
+if [[ -d .venv ]]; then
+    # shellcheck disable=SC1091
+    source ./.venv/bin/activate
+    return 0
+fi
+
+[[ -n "$UNIT_TESTING" ]] && return 0
+
 echo "No .venv found — locating a suitable Python (newest < 3.14) to create one..."
 
 candidates=$(find_python) || {
@@ -142,7 +145,7 @@ source ./.venv/bin/activate
 # Upgrade pip and install tools using the venv's python
 VENV_PY="$(pwd)/.venv/bin/python"
 "$VENV_PY" -m pip install --upgrade pip
-"$VENV_PY" -m pip install ansible-dev-tools
+"$VENV_PY" -m pip install ansible-dev-tools jmespath molecule-plugins pytest-testinfra
 
 # Convenient alias for decrypting vaulted items
 alias avdad='python "$PLAYBOOK_PATH/DECRYPT_VAULTED_ITEMS.py"'

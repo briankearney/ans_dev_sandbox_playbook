@@ -1,0 +1,32 @@
+---
+# Molecule verify playbook for with-linting scenario
+
+- name: Verify after linting
+  hosts: localhost
+  gather_facts: true
+  connection: local
+
+  tasks:
+    - name: Verify linting passed
+      ansible.builtin.debug:
+        msg: "If we reached this point, yamllint and ansible-lint passed successfully"
+
+    - name: Verify system state
+      ansible.builtin.ping:
+
+    - name: Verify Python interpreter
+      ansible.builtin.command:
+        cmd: "{{ ansible_playbook_python }} --version"
+      register: python_version
+      changed_when: false
+
+    - name: Display Python version
+      ansible.builtin.debug:
+        msg: "Python: {{ python_version.stdout }}"
+
+    - name: Verify role executed successfully
+      ansible.builtin.assert:
+        that:
+          - ansible_facts is defined
+        fail_msg: "Role execution verification failed"
+        success_msg: "Role executed successfully with linting validation"

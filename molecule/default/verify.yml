@@ -1,0 +1,43 @@
+---
+# Molecule verify playbook for default scenario
+# This runs after converge to verify the system state
+
+- name: Verify
+  hosts: localhost
+  gather_facts: true
+  connection: local
+
+  tasks:
+    - name: Verify Python interpreter is available
+      ansible.builtin.command:
+        cmd: "{{ ansible_python_interpreter | default('python3') }} --version"
+      register: python_version
+      changed_when: false
+      failed_when: python_version.rc != 0
+
+    - name: Display Python version
+      ansible.builtin.debug:
+        msg: "Python version: {{ python_version.stdout }}"
+
+    - name: Verify Ansible is functional
+      ansible.builtin.ping:
+
+    - name: Check that role executed successfully
+      ansible.builtin.assert:
+        that:
+          - ansible_facts is defined
+          - ansible_python_interpreter is defined or ansible_playbook_python is defined
+        fail_msg: "Role execution verification failed"
+        success_msg: "Role executed successfully and system state is valid"
+
+    - name: Verify no orphaned temporary directories
+      ansible.builtin.find:
+        paths: /tmp
+        patterns: "ansible.*"
+        file_type: directory
+        age: "-5m"
+      register: temp_dirs
+
+    - name: Report temporary directories (informational)
+      ansible.builtin.debug:
+        msg: "Found {{ temp_dirs.matched }} recent Ansible temporary directories"

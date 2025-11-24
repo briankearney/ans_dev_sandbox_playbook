@@ -1,0 +1,37 @@
+---
+# Molecule verify playbook for localhost-only scenario
+
+- name: Verify localhost connection
+  hosts: localhost
+  gather_facts: true
+  connection: local
+
+  tasks:
+    - name: Verify we can gather facts on localhost
+      ansible.builtin.assert:
+        that:
+          - ansible_facts is defined
+          - ansible_hostname is defined
+          - ansible_os_family is defined
+        fail_msg: "Failed to gather facts on localhost"
+        success_msg: "Successfully gathered facts on localhost"
+
+    - name: Verify localhost connectivity
+      ansible.builtin.ping:
+
+    - name: Verify Python interpreter is working
+      ansible.builtin.command:
+        cmd: "{{ ansible_playbook_python }} -c 'import sys; print(sys.version)'"
+      register: python_check
+      changed_when: false
+
+    - name: Display Python version
+      ansible.builtin.debug:
+        msg: "Python version: {{ python_check.stdout }}"
+
+    - name: Verify connection is local
+      ansible.builtin.assert:
+        that:
+          - ansible_connection == "local"
+        fail_msg: "Connection type is not local"
+        success_msg: "Connection type is correctly set to local"

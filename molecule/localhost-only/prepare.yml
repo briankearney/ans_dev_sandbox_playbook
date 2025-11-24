@@ -1,0 +1,21 @@
+---
+# Molecule prepare playbook for localhost-only scenario
+
+- name: Prepare test environment
+  hosts: localhost
+  gather_facts: false
+  connection: local
+
+  tasks:
+    - name: Ensure roles directory exists
+      ansible.builtin.file:
+        path: "{{ playbook_dir }}/../../roles"
+        state: directory
+        mode: "0755"
+
+    - name: Install required roles from requirements.yml
+      ansible.builtin.command:
+        cmd: ansible-galaxy install -r {{ playbook_dir }}/../../roles/requirements.yml --roles-path {{ playbook_dir }}/../../roles --force
+      changed_when: true
+      register: galaxy_install
+      failed_when: galaxy_install.rc != 0

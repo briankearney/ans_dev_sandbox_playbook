@@ -145,4 +145,6 @@ main() {
             playbooks/sample_playbook.yml
 }
 
-main "$@"
+if [[ -z "$UNIT_TESTING" ]]; then
+    main "$@"
+fi

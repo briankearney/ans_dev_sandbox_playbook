@@ -1,0 +1,42 @@
+---
+# Ansible Lint Configuration
+# See https://ansible.readthedocs.io/projects/lint/
+
+profile: production
+
+# Exclude paths from linting
+exclude_paths:
+  - .venv/
+  - .cache/
+  - roles/ans_dev_sandbox_role/
+  - roles/*
+  - "!roles/requirements.yml"
+  - .github/
+  - __pycache__/
+  - "*.pyc"
+  - .molecule/
+  - tests/
+
+# Skip specific rules
+skip_list:
+  - role-name # Role names from Galaxy may not follow our naming convention
+  - galaxy[no-changelog] # External roles may not have changelogs
+  - fqcn[action-core] # Allow short module names for readability
+
+# Enable specific rules
+enable_list:
+  - yaml
+  - no-changed-when
+  - no-handler
+
+# Warn only for these rules (don't fail)
+warn_list:
+  - experimental
+  - jinja[spacing]
+  - name[casing]
+
+# Use offline mode (don't check for updates)
+offline: false
+
+# Verbosity level
+verbosity: 1

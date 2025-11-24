@@ -1,0 +1,27 @@
+---
+# Molecule converge playbook for with-linting scenario
+
+- name: Converge - Test with linting validation
+  hosts: localhost
+  gather_facts: false
+  connection: local
+
+  vars:
+    sample_message: "Testing with linting enabled"
+
+  tasks:
+    - name: Include the role
+      ansible.builtin.include_role:
+        name: ans_dev_sandbox_role
+
+    - name: Verify role execution
+      ansible.builtin.debug:
+        msg: "Role executed successfully after linting validation"
+
+  post_tasks:
+    - name: Clean up temporary directory
+      ansible.builtin.file:
+        path: "{{ temp_dir_results.path }}"
+        state: absent
+      when: temp_dir_results is defined and temp_dir_results.path is defined
+      failed_when: false

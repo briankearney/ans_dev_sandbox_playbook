@@ -1,0 +1,35 @@
+---
+# Molecule converge playbook for localhost-only scenario
+# Tests specifically the localhost connection configuration
+
+- name: Converge - Test localhost connection
+  hosts: localhost
+  gather_facts: true
+  connection: local
+
+  vars:
+    sample_message: "Testing localhost connection"
+
+  tasks:
+    - name: Verify connection type is local
+      ansible.builtin.assert:
+        that:
+          - ansible_connection == "local"
+        fail_msg: "Connection is not local: {{ ansible_connection }}"
+        success_msg: "Connection type verified as local"
+
+    - name: Verify Python interpreter detection
+      ansible.builtin.debug:
+        msg: "Using Python: {{ ansible_playbook_python }}"
+
+    - name: Include the role
+      ansible.builtin.include_role:
+        name: ans_dev_sandbox_role
+
+  post_tasks:
+    - name: Clean up temporary directory
+      ansible.builtin.file:
+        path: "{{ temp_dir_results.path }}"
+        state: absent
+      when: temp_dir_results is defined and temp_dir_results.path is defined
+      failed_when: false
