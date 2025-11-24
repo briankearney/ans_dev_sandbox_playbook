@@ -6,7 +6,7 @@ dependency:
     role-file: ../../roles/requirements.yml
 
 driver:
-  name: delegated
+  name: default
   options:
     managed: false
     ansible_connection_options:

@@ -9,8 +9,7 @@ ansible-dev-tools
 jmespath
 
 # Molecule plugins for testing
-# Install with delegated driver support
-molecule-plugins[delegated]
+molecule-plugins
 
 # Pytest infrastructure testing plugin for Molecule
 pytest-testinfra
