@@ -39,6 +39,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Create vault password file
+        run: |
+          echo "password" > vault-pw.txt
+
       - name: Display versions
         run: |
           python --version
