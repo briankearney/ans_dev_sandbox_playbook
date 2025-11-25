@@ -45,6 +45,16 @@ python3 -m unittest test_DECRYPT_VAULTED_ITEMS.TestDecryptVaultedItems
 python3 -m unittest test_DECRYPT_VAULTED_ITEMS.TestDecryptVaultedItems.test_extract_vault_content_success
 ```
 
+### Run Everything (Convenience)
+
+From repository root after activation:
+```bash
+source ACTIVATE_SANDBOX_ENV.bash
+bash tests/test_activate_sandbox_env.bash && \
+	bash tests/test_run_playbook.bash && \
+	python3 -m unittest -v test_DECRYPT_VAULTED_ITEMS.py
+```
+
 ## CI/CD Integration
 
 All unit tests run automatically via GitHub Actions on every push and pull request to `main` and `develop` branches.
@@ -85,7 +95,7 @@ Tests the Python virtual environment activation script.
 - **Python Version Selection**: Verifies the script correctly identifies and selects the newest Python version < 3.14
 - **Directory Resolution**: Ensures `get_script_dir` correctly resolves the script's location even when sourced from different directories
 
-**Framework:** Custom Bash-based assertion functions (`assert_equals`)
+**Framework:** Custom Bash-based assertion functions (`assert_equals`); no external harness (e.g. `bats`) to keep dependencies minimal.
 
 **Notes:**
 - Uses `UNIT_TESTING` environment variable to source the script without executing side effects
@@ -138,6 +148,21 @@ Comprehensive unit tests for the Ansible vault decryption utility using Python's
 - `PyYAML` (for YAML parsing)
 - `pygments` (optional - will be mocked if not available)
 
+### Sample Successful Output (Bash)
+
+```text
+Running test_activate_sandbox_env.bash...
+TEST: python version selection ... OK
+TEST: get_script_dir resolution ... OK
+ALL TESTS PASSED
+```
+
+### Sample Failure (Illustrative)
+
+```text
+TEST: python version selection ... FAIL (expected 3.12, got 3.8)
+```
+
 ## Test Framework Details
 
 ### Bash Tests
@@ -150,6 +175,16 @@ Comprehensive unit tests for the Ansible vault decryption utility using Python's
 - **Mocking**: Uses `unittest.mock` for external dependencies
 - **Isolation**: Creates temporary directories for file-based tests
 - **Cleanup**: Automatic cleanup via `setUp`/`tearDown` methods
+
+## Contributing Tests
+
+Guidelines for adding new tests:
+1. Prefer small, isolated test cases.
+2. Mirror naming style: `test_<script>.bash` or `test_<module>.py`.
+3. For Python, use `unittest` and mock external calls (`subprocess.run`, network, filesystem) to keep tests deterministic.
+4. Keep fixtures ephemeral (use `tempfile`); avoid committing test artifacts.
+5. Ensure idempotence—tests can run multiple times cleanly.
+6. Update this README if adding new categories.
 
 ## Prerequisites
 
@@ -166,7 +201,7 @@ Comprehensive unit tests for the Ansible vault decryption utility using Python's
 ## Notes
 
 - All tests are designed to run without modifying the system or creating persistent side effects
-- Bash tests use `UNIT_TESTING` environment variable to prevent script execution during sourcing
-- Python tests automatically clean up temporary files and directories
+- Bash tests use `UNIT_TESTING` environment variable to prevent side effects during sourcing.
+- Python tests automatically clean up temporary files and directories.
 - Tests can be run individually or as a complete suite
 - Exit codes: 0 = success, non-zero = failure

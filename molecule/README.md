@@ -8,7 +8,7 @@ This repository includes three Molecule test scenarios to validate the playbook 
 
 1. **default** - Full test sequence with idempotence checking
 2. **localhost-only** - Tests specifically for localhost connection configuration
-3. **with-linting** - Includes ansible-lint and yamllint validation before tests
+3. **with-linting** - Scenario name retained; linting is now run externally (Molecule ≥25 removed built‑in lint command)
 
 All scenarios use the **delegated** driver, which runs tests directly on the local machine without requiring containers or VMs.
 
@@ -103,19 +103,18 @@ molecule verify          # Just run verification
 
 **Location**: `molecule/with-linting/`
 
-**Purpose**: Validate code quality before running tests
+**Purpose**: Emphasize that linting should be performed separately prior to convergence.
 
-**Test Sequence**: dependency → **lint** → syntax → create → prepare → converge → verify → cleanup → destroy
+**Test Sequence**: dependency → syntax → create → prepare → converge → verify → cleanup → destroy
 
 **What it tests**:
-- YAML syntax validation (yamllint)
-- Ansible best practices (ansible-lint)
-- Playbook execution after passing linting
+- Assumes lint was run manually or via CI before scenario execution
+- Playbook execution & verification tasks
 - System state validation
 
-**Linting includes**:
-- `yamllint .` - YAML file validation
-- `ansible-lint` - Ansible playbook best practices
+**Recommended linting workflow (manual or CI)**:
+- `yamllint .`
+- `ansible-lint playbooks/ molecule/`
 
 ## Verification Tests
 
@@ -140,14 +139,14 @@ Each scenario includes verification tasks in `verify.yml`:
 
 ## Linting Configuration
 
-### ansible-lint (`.ansible-lint`)
+### ansible-lint (`../.ansible-lint`)
 
 - **Profile**: production
 - **Excludes**: External roles, virtual environments, cache directories
 - **Skip rules**: External role naming, Galaxy changelogs
 - **Custom rules**: Line length (160), variable naming, command usage
 
-### yamllint (`.yamllint`)
+### yamllint (`../.yamllint`)
 
 - **Line length**: 160 characters (warning level)
 - **Indentation**: 2 spaces
@@ -260,10 +259,10 @@ cp -r molecule/default molecule/my-scenario
 ## Best Practices
 
 1. **Always run idempotence tests** - Use the default scenario to ensure playbooks are idempotent
-2. **Test before committing** - Run `molecule test` locally before pushing
+2. **Test before committing** - Run `molecule test -s default` locally before pushing
 3. **Use linting** - Run the with-linting scenario to catch issues early
 4. **Check CI/CD** - Monitor GitHub Actions for test results
-5. **Keep scenarios focused** - Each scenario should test a specific aspect
+5. **Keep scenarios focused** - Each scenario should test a specific aspect (connection logic, idempotence, lint pre-checks, etc.)
 6. **Update verify tasks** - Add verification for new functionality
 
 ## File Structure
