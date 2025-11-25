@@ -1,5 +1,7 @@
 # Molecule Testing for ans_dev_sandbox_playbook
 
+For detailed testing, validation, and CI/CD guidance, see the [Testing and Validation](https://github.com/briankearney/ans_dev_sandbox_playbook/wiki/Testing-and-Validation) section of the [project wiki](https://github.com/briankearney/ans_dev_sandbox_playbook/wiki).
+
 Comprehensive testing infrastructure using [Molecule](https://ansible.readthedocs.io/projects/molecule/) for the `ans_dev_sandbox_playbook` Ansible playbook.
 
 ## Overview

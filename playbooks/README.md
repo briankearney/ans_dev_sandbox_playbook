@@ -1,5 +1,7 @@
 # playbooks/
 
+For playbook structure, usage patterns, and advanced examples, see the [Playbooks](https://github.com/briankearney/ans_dev_sandbox_playbook/wiki/Playbooks) section of the [project wiki](https://github.com/briankearney/ans_dev_sandbox_playbook/wiki).
+
 Example playbook(s) consuming the sandbox role.
 
 ## File

@@ -1,5 +1,9 @@
 # inventory/
 
+For inventory structure, host management, and configuration details, see:
+- [Configuration Guide](https://github.com/briankearney/ans_dev_sandbox_playbook/wiki/Configuration)
+- [Inventory](https://github.com/briankearney/ans_dev_sandbox_playbook/wiki#inventory)
+
 Sample YAML inventory consumed by the playbook and Molecule scenarios.
 
 ## File

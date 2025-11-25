@@ -1,5 +1,7 @@
 # defaults/
 
+For variable management, overrides, and best practices, see the [Configuration Guide](https://github.com/briankearney/ans_dev_sandbox_playbook/wiki/Configuration) in the [project wiki](https://github.com/briankearney/ans_dev_sandbox_playbook/wiki).
+
 Convenience variable file (not a role `defaults/` directory). Must be explicitly loaded via `vars_files`.
 
 File of interest:

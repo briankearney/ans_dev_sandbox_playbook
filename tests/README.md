@@ -1,5 +1,7 @@
 # Tests
 
+For test strategies, validation workflows, and CI/CD integration, see the [Testing and Validation](https://github.com/briankearney/ans_dev_sandbox_playbook/wiki/Testing-and-Validation) section of the [project wiki](https://github.com/briankearney/ans_dev_sandbox_playbook/wiki).
+
 Unit tests for helper scripts and Python utility. `pytest-testinfra` is installed but not yet used—future expansion could move certain system assertions from Molecule `verify.yml` into testinfra modules for richer validation.
 
 ## Test Overview

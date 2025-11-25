@@ -5,6 +5,12 @@
 
 Lightweight Ansible playbook sandbox for developing and validating the GitHub-hosted role `briankearney/ans_dev_sandbox_role` using environment‑based configuration, Molecule scenarios, and unit tests.
 
+## Documentation & Wiki
+For setup, architecture, and usage guides, see:
+- [Getting Started](https://github.com/briankearney/ans_dev_sandbox_playbook/wiki/Getting-Started)
+- [Architecture](https://github.com/briankearney/ans_dev_sandbox_playbook/wiki/Architecture)
+- [Project Wiki](https://github.com/briankearney/ans_dev_sandbox_playbook/wiki) (full index)
+
 ## Quick Map
 - **Playbook:** `playbooks/sample_playbook.yml`
 - **Inventory:** `inventory/main.yml` (`local` group contains `localhost` and dynamic container host `ansible_target`)
