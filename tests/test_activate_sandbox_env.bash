@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# Test harness
+# Test harness with temporary file for cross-subshell communication
+TEST_RESULTS=$(mktemp)
 TEST_COUNT=0
 FAIL_COUNT=0
 
@@ -10,13 +11,13 @@ assert_equals() {
     local message="${3:-}"
     if [[ "$expected" == "$actual" ]]; then
         echo "PASS: $message"
+        echo "PASS" >> "$TEST_RESULTS"
     else
         echo "FAIL: $message"
         echo "  Expected: '$expected'"
         echo "  Actual:   '$actual'"
-        FAIL_COUNT=$((FAIL_COUNT + 1))
+        echo "FAIL" >> "$TEST_RESULTS"
     fi
-    TEST_COUNT=$((TEST_COUNT + 1))
 }
 
 # Setup
@@ -26,42 +27,46 @@ SCRIPT_PATH="$(pwd)/ACTIVATE_SANDBOX_ENV.bash"
 
 cleanup() {
     rm -rf "$TEST_DIR"
+    rm -f "$TEST_RESULTS"
 }
 trap cleanup EXIT
-
-# Copy script to test dir to avoid modifying source if we needed to, 
-# but here we just want to run it in a clean env.
-# We need to source the script.
-# The script expects to be in a git repo or similar, it does `cd "$PLAYBOOK_PATH"`.
-# We should probably run tests from the repo root.
 
 # Test 1: select_python logic
 echo "Running Test 1: select_python logic"
 (
     # Source the script with UNIT_TESTING set
     export UNIT_TESTING=true
-    # We need to mock cd or ensure we are in a valid place.
-    # The script does `cd "$PLAYBOOK_PATH"`.
-    # If we source it from the current dir, PLAYBOOK_PATH will be current dir.
+    export TEST_RESULTS
     
     source "$SCRIPT_PATH"
     
-    # Test select_python with valid input
+    # Test select_python with valid input (Python 3.12 should be selected, NOT 3.13)
+    # The script excludes Python >= 3.13.0
     input="
 /usr/bin/python3.13:3.13.0
 /usr/bin/python3.12:3.12.0
 /usr/bin/python3.11:3.11.5
 "
     result=$(echo "$input" | select_python)
-    assert_equals "/usr/bin/python3.13" "$result" "Select newest python < 3.14"
+    assert_equals "/usr/bin/python3.12" "$result" "Select newest python < 3.13 (excludes 3.13+)"
 
-    # Test with newer python
+    # Test with only Python < 3.13
     input="
-/usr/bin/python3.13:3.13.0
+/usr/bin/python3.12:3.12.5
+/usr/bin/python3.11:3.11.0
+/usr/bin/python3.10:3.10.12
+"
+    result=$(echo "$input" | select_python)
+    assert_equals "/usr/bin/python3.12" "$result" "Select newest from valid candidates"
+
+    # Test with Python >= 3.14 (should be ignored)
+    input="
+/usr/bin/python3.14:3.14.0
+/usr/bin/python3.13:3.13.1
 /usr/bin/python3.12:3.12.0
 "
     result=$(echo "$input" | select_python)
-    assert_equals "/usr/bin/python3.13" "$result" "Ignore python >= 3.14"
+    assert_equals "/usr/bin/python3.12" "$result" "Ignore python >= 3.13"
 
     # Test with invalid input
     input="
@@ -71,9 +76,10 @@ invalid
     # Should fail (exit 2)
     if [[ $? -ne 0 ]]; then
          echo "PASS: Handle invalid input"
+         echo "PASS" >> "$TEST_RESULTS"
     else
          echo "FAIL: Should have failed on invalid input"
-         FAIL_COUNT=$((FAIL_COUNT + 1))
+         echo "FAIL" >> "$TEST_RESULTS"
     fi
 )
 
@@ -81,6 +87,7 @@ invalid
 echo "Running Test 2: get_script_dir logic"
 (
     export UNIT_TESTING=true
+    export TEST_RESULTS
     source "$SCRIPT_PATH"
     
     # Verify PLAYBOOK_PATH is set to the directory of the script
@@ -91,6 +98,13 @@ echo "Running Test 2: get_script_dir logic"
 
 # Summary
 echo "------------------------------------------------"
+
+# Count results from the temporary file
+while IFS= read -r result; do
+    TEST_COUNT=$((TEST_COUNT + 1))
+    [[ "$result" == "FAIL" ]] && FAIL_COUNT=$((FAIL_COUNT + 1))
+done < "$TEST_RESULTS"
+
 echo "Tests run: $TEST_COUNT"
 echo "Failures:  $FAIL_COUNT"
 
