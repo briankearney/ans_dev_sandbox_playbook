@@ -40,17 +40,18 @@ echo "Running Test 1: select_python logic"
     
     source "$SCRIPT_PATH"
     
-    # Test select_python with valid input (Python 3.12 should be selected, NOT 3.13)
-    # The script excludes Python >= 3.13.0
+    # Test select_python with valid input (Python 3.14 should be selected, NOT 3.15)
+    # The script excludes Python >= 3.15.0
     input="
-/usr/bin/python3.13:3.13.0
+/usr/bin/python3.15:3.15.0
+    /usr/bin/python3.14:3.14.2
 /usr/bin/python3.12:3.12.0
 /usr/bin/python3.11:3.11.5
 "
     result=$(echo "$input" | select_python)
-    assert_equals "/usr/bin/python3.12" "$result" "Select newest python < 3.13 (excludes 3.13+)"
+    assert_equals "/usr/bin/python3.14" "$result" "Select newest python < 3.15 (excludes 3.15+)"
 
-    # Test with only Python < 3.13
+    # Test with only Python < 3.15
     input="
 /usr/bin/python3.12:3.12.5
 /usr/bin/python3.11:3.11.0
@@ -59,14 +60,14 @@ echo "Running Test 1: select_python logic"
     result=$(echo "$input" | select_python)
     assert_equals "/usr/bin/python3.12" "$result" "Select newest from valid candidates"
 
-    # Test with Python >= 3.14 (should be ignored)
+    # Test with Python >= 3.15 (should be ignored; 3.14 allowed)
     input="
 /usr/bin/python3.14:3.14.0
-/usr/bin/python3.13:3.13.1
+/usr/bin/python3.15:3.15.1
 /usr/bin/python3.12:3.12.0
 "
     result=$(echo "$input" | select_python)
-    assert_equals "/usr/bin/python3.12" "$result" "Ignore python >= 3.13"
+    assert_equals "/usr/bin/python3.14" "$result" "Ignore python >= 3.15"
 
     # Test with invalid input
     input="

@@ -32,7 +32,7 @@ export ANSIBLE_LOG_PATH=./ansible.log
 ```
 
 ## Prerequisites
-- Python 3.10–3.12 (< 3.13; auto-selected by activation script)
+- Python >3.9 and <3.15 (auto-selected by activation script; typically 3.10–3.14)
 - ansible-core >= 2.14 (installed via `requirements.txt`)
 - Optional: Podman or Docker (for container-based testing via `RUN_PLAYBOOK.bash`)
 - Dependencies from `requirements.txt` (auto-installed by activation script)

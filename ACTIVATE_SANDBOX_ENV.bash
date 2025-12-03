@@ -77,7 +77,7 @@ $p:$ver"
     printf '%s\n' "$candidates"
 }
 
-# Select best Python version (newest < 3.13 due to pytest-testinfra/pytest-ansible conflicts)
+# Select best Python version (newest < 3.15; supports >3.9)
 select_python() {
     # Read candidate lines from stdin in the Python program invoked with -c so
     # the piped input becomes python's sys.stdin (using a here-doc would steal
@@ -94,7 +94,7 @@ for line in sys.stdin:
     try:
         path, ver = line.split(":", 1)
         parts = tuple(int(x) for x in ver.split(".")[:3])
-        if parts < (3, 13, 0) and (best is None or parts > best):
+        if parts < (3, 15, 0) and (best is None or parts > best):
             best = parts
             best_path = path
     except (ValueError, IndexError):
@@ -117,15 +117,15 @@ fi
 
 [[ -n "${UNIT_TESTING:-}" ]] && return 0
 
-echo "No .venv found — locating a suitable Python (newest < 3.13) to create one..."
+echo "No .venv found — locating a suitable Python (newest < 3.15) to create one..."
 
 candidates=$(find_python) || {
-    echo "No python3 interpreters found on the system. Please install Python 3.10-3.12." >&2
+    echo "No python3 interpreters found on the system. Please install Python 3.10-3.14." >&2
     return 1
 }
 
 picked=$(echo "$candidates" | select_python) || {
-    echo "No suitable Python < 3.13 found. Please install Python 3.10-3.12." >&2
+    echo "No suitable Python < 3.15 found. Please install Python 3.10-3.14." >&2
     return 1
 }
 

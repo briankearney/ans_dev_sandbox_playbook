@@ -57,7 +57,7 @@ bash tests/test_activate_sandbox_env.bash && \
 
 ## CI/CD Integration
 
-All unit tests run automatically via GitHub Actions (push/PR to `main` & `develop`). Matrix covers Python 3.10–3.12.
+All unit tests run automatically via GitHub Actions (push/PR to `main` & `develop`). Matrix covers Python 3.10–3.14.
 
 **Molecule Testing**: The project now uses pytest-testinfra for Molecule scenario verification. See `molecule/default/test_default.py` and `molecule/localhost-only/test_localhost.py` for Python-based system state assertions that complement the unit tests for helper scripts.
 
@@ -70,7 +70,7 @@ All unit tests run automatically via GitHub Actions (push/PR to `main` & `develo
 - Pull requests to `main` or `develop`
 - Manual workflow dispatch
 
-**Matrix Testing**: Python 3.10, 3.11, 3.12
+**Matrix Testing**: Python 3.10, 3.11, 3.12, 3.13, 3.14
 
 **Jobs**:
 1. **bash-tests**: Runs both Bash script tests (`test_activate_sandbox_env.bash`, `test_run_playbook.bash`)

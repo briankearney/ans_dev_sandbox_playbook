@@ -33,7 +33,7 @@ Always use `source ACTIVATE_SANDBOX_ENV.bash` to set up your environment. The sc
 **Issue:** Virtual environment created with Python 3.13 or higher
 
 **Solution:**
-The project requires Python 3.10-3.12 (< 3.13) due to pytest-testinfra/pytest-ansible plugin conflicts. The activation script automatically selects the newest compatible version available on your system. If you need to recreate your environment:
+The project supports Python >3.9 and <3.15 due to historical pytest plugin conflicts mitigated by our environment setup. The activation script automatically selects the newest compatible version available on your system. If you need to recreate your environment:
 
 ```bash
 deactivate
@@ -41,7 +41,7 @@ rm -rf .venv
 source ACTIVATE_SANDBOX_ENV.bash
 ```
 
-The script will automatically choose the best available Python version (3.10-3.12).
+The script will automatically choose the best available Python version (typically 3.10–3.14).
 
 ### Container Port Conflicts
 
@@ -114,7 +114,7 @@ ln -snf ../ans_dev_sandbox_role roles/ans_dev_sandbox_role
 If you encounter an issue not covered here:
 
 1. Check that your environment is activated: `source ACTIVATE_SANDBOX_ENV.bash`
-2. Verify Python version: `python --version` (should be 3.10-3.12)
+2. Verify Python version: `python --version` (should be within >3.9 and <3.15)
 3. Check for conflicting packages: `pip list | grep pytest`
 4. Review logs: `cat ansible.log`
 5. Run with verbose output: `molecule --debug verify -s default`
