@@ -32,15 +32,16 @@ def test_ansible_is_functional(host):
 
 def test_role_execution_artifacts(host):
     """Verify the role executed and left expected state."""
-    # The role should have created and cleaned up temporary directories
-    # We verify that the system is in clean state after role execution
-    # Check for recent ansible temporary directories (should be minimal/cleaned)
-    temp_check = host.run("find /tmp -maxdepth 1 -name 'ansible.*' -type d -mmin -5 2>/dev/null | wc -l")
+    # The role should have cloned to a fixed directory for idempotence testing
+    # Check that the molecule test sandbox directory exists
+    test_dir = host.file("/tmp/molecule_test_sandbox")
+    assert test_dir.exists, "Test sandbox directory should exist"
+    assert test_dir.is_directory, "Test sandbox should be a directory"
     
-    # We expect 0 or very few temporary directories (cleanup should have occurred)
-    # Allow up to 2 as some might be from the current Molecule run
-    temp_count = int(temp_check.stdout.strip())
-    assert temp_count <= 2, f"Expected minimal temp directories, found {temp_count}"
+    # Verify the git repository was cloned successfully
+    git_dir = host.file("/tmp/molecule_test_sandbox/.git")
+    assert git_dir.exists, "Git repository should be cloned"
+    assert git_dir.is_directory, ".git should be a directory"
 
 
 def test_system_facts_gathering(host):
