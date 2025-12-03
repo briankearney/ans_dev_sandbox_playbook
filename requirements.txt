@@ -16,6 +16,9 @@ molecule-plugins
 # Pytest infrastructure testing plugin for Molecule
 pytest-testinfra
 
+# Pytest coverage plugin for code coverage reporting
+pytest-cov
+
 # YAML parsing library (required by DECRYPT_VAULTED_ITEMS.py)
 PyYAML
 

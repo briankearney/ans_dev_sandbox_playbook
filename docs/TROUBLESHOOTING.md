@@ -33,7 +33,7 @@ Always use `source ACTIVATE_SANDBOX_ENV.bash` to set up your environment. The sc
 **Issue:** Virtual environment created with Python 3.13 or higher
 
 **Solution:**
-The project requires Python 3.10-3.12 due to the pytest plugin conflict mentioned above. The activation script automatically selects the newest compatible version. If you need to recreate your environment:
+The project requires Python 3.10-3.12 (< 3.13) due to pytest-testinfra/pytest-ansible plugin conflicts. The activation script automatically selects the newest compatible version available on your system. If you need to recreate your environment:
 
 ```bash
 deactivate
