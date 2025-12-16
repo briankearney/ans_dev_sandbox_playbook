@@ -2,6 +2,150 @@
 
 ## Common Issues and Solutions
 
+### Podman Database Configuration Mismatch (Ubuntu + Snap VS Code)
+
+**Symptom:**
+```
+Error: database configuration mismatch: static directory "/path/A" does not match current configuration "/path/B"
+```
+or
+```
+Error: database configuration mismatch: graphroot "/path/A" does not match current configuration "/path/B"
+```
+
+**Root Cause:**
+This error occurs when Podman's stored database paths don't match the current runtime environment, commonly caused by:
+- VS Code installed via Snap creating isolated filesystem namespaces
+- Podman storing absolute paths in `~/.local/share/containers/storage/libpod/bolt_state.db`
+- Home directory path changes or Snap confinement causing stored paths to become invalid
+- User account changes or system migrations that altered the home directory structure
+
+**Solutions (in order of preference):**
+
+#### Solution 1: Reset Podman Storage (Destructive but Fast)
+
+⚠️ **WARNING:** This destroys all containers, images, and volumes.
+
+```bash
+podman system reset
+```
+
+After reset, verify Podman is working:
+```bash
+podman info | grep -A5 graphRoot
+podman run --rm hello-world
+```
+
+#### Solution 2: Manual Configuration Fix (Preserves Data)
+
+This approach keeps your existing containers and images.
+
+```bash
+# 1. View the current path mismatch
+podman info 2>&1 | grep -A10 "mismatch"
+
+# 2. Check current storage configuration
+cat ~/.config/containers/storage.conf
+
+# 3. Edit storage config to match runtime paths shown in the error
+vim ~/.config/containers/storage.conf
+
+# Update these fields to match the paths shown in the error message:
+# [storage]
+# driver = "overlay"
+# graphroot = "/home/username/.local/share/containers/storage"  # Update this path
+# runroot = "/run/user/1000/containers"                          # Update if needed
+
+# 4. Also check and update static_dir if present
+# static_dir = "/home/username/.local/share/containers/storage"  # Update this path
+```
+
+After editing, verify the fix:
+```bash
+podman info | grep -A5 graphRoot
+podman ps -a  # Should list containers without errors
+```
+
+#### Solution 3: Switch VS Code Installation Method (Root Cause Fix)
+
+Replace Snap-based VS Code with the native .deb package to avoid filesystem namespace issues.
+
+```bash
+# Remove Snap version
+sudo snap remove code
+
+# Install native .deb package from Microsoft repository
+wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
+echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" | sudo tee /etc/apt/sources.list.d/vscode.list
+sudo apt update && sudo apt install code
+
+# Clean up
+rm -f packages.microsoft.gpg
+```
+
+After reinstalling VS Code, test Podman:
+```bash
+podman info | grep -A5 graphRoot
+./RUN_PLAYBOOK.bash  # Test with project
+```
+
+#### Solution 4: Alternative - Use Docker Instead
+
+If Podman continues to have issues, the project supports Docker as well:
+
+```bash
+# Install Docker (if not already installed)
+sudo apt update
+sudo apt install docker.io
+sudo usermod -aG docker $USER
+newgrp docker  # Or log out and back in
+
+# Verify Docker works
+docker info
+./RUN_PLAYBOOK.bash  # Script auto-detects Docker
+```
+
+**Verification Steps:**
+
+After applying any solution:
+
+```bash
+# 1. Check Podman configuration is consistent
+podman info | grep -E "(graphRoot|runRoot|static)"
+
+# 2. Test basic container operations
+podman run --rm alpine:latest echo "Podman is working"
+
+# 3. Run the project's container workflow
+./RUN_PLAYBOOK.bash
+
+# 4. Verify container networking
+podman ps -a
+```
+
+**Prevention Tips:**
+
+- **Use native package managers** (apt, dnf) over Snap for development tools
+- **Avoid changing home directory paths** after Podman initialization
+- **Document your VS Code installation method** in team onboarding
+- **Consider adding `podman system reset`** to onboarding docs if team uses mixed installations
+- **Regular backups**: Export important containers with `podman save` before major system changes
+
+**Related Issues:**
+
+- If you see "permission denied" errors after switching VS Code installations, check directory ownership:
+  ```bash
+  ls -la ~/.local/share/containers/
+  # Should be owned by your user, not root
+  ```
+
+- If containers exist but are inaccessible, check the database directly:
+  ```bash
+  file ~/.local/share/containers/storage/libpod/bolt_state.db
+  # Should be a Berkeley DB file
+  ```
+
 ### `molecule verify` fails with argparse.ArgumentError
 
 **Error Message:**

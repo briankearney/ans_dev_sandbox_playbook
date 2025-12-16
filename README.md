@@ -42,8 +42,6 @@ export ANSIBLE_LOG_PATH=./ansible.log
 git clone <repo>
 cd ans_dev_sandbox_playbook
 source ACTIVATE_SANDBOX_ENV.bash        # creates .venv, installs deps
-ansible-galaxy install -r roles/requirements.yml --roles-path roles
-ansible-playbook -i inventory/main.yml playbooks/sample_playbook.yml
 ```
 Wrapper (builds container + runs playbook):
 ```bash

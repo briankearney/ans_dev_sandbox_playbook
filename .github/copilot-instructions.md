@@ -197,6 +197,7 @@ trap cleanup EXIT
 - **Vault decrypt errors** → Verify vault-id matches block header (`vault_id: !vault |`)
 - **Container port conflicts** → Default port 2222 may be in use; modify `CONTAINER_HOST_PORT` in `RUN_PLAYBOOK.bash`
 - **Python version issues** → Activation script selects 3.10–3.14 automatically; ensure a compatible version (>3.9 and <3.15) is installed
+- **Podman "database configuration mismatch"** → Occurs on Linux with VS Code installed via Snap. Path inconsistencies in Podman's storage config (static directory/graphroot) don't match runtime environment. Solutions: (1) Quick fix: `podman system reset` (⚠️ destroys all containers/images), (2) Preserve data: manually edit `~/.config/containers/storage.conf` to match current paths shown in error, (3) Root cause fix: use native VS Code package instead of Snap to avoid path namespace issues. Verify fix with `podman info | grep -A5 graphRoot`. See `docs/TROUBLESHOOTING.md` for detailed solutions
 
 ## Development Guidelines
 
