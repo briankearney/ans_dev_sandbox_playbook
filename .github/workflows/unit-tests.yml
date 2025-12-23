@@ -43,7 +43,7 @@ jobs:
       - name: Run Python unit tests
         run: |
           python -m unittest -v tests/test_sandbox.py
-          python -m unittest -v test_DECRYPT_VAULTED_ITEMS.py
+          python -m unittest -v tests/test_DECRYPT_VAULTED_ITEMS.py
         env:
           PYTHONUNBUFFERED: "1"
 

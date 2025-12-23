@@ -59,7 +59,7 @@ jobs:
       - name: Set Ansible environment variables (enterprise-safe)
         run: |
           export UNIT_TESTING=true
-          python sandbox.py activate --env-file .env --playbook-path .
+          python sandbox.py --env-file .env activate --playbook-path .
           set -a
           source .env
           set +a
