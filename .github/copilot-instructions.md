@@ -2,7 +2,7 @@
 
 ## Project Architecture
 
-This is an **Ansible playbook sandbox** for developing and testing the GitHub-hosted role `briankearney/ans_dev_sandbox_role`. The project uses **environment variables instead of `ansible.cfg`** for enterprise compliance—never create or suggest `ansible.cfg` files.
+This is an **Ansible playbook sandbox** for developing and testing the GitHub-hosted role `McIndi/ans_dev_sandbox_role`. The project uses **environment variables instead of `ansible.cfg`** for enterprise compliance—never create or suggest `ansible.cfg` files.
 
 ### Key Components
 
@@ -123,7 +123,7 @@ ansible-lint playbooks/ molecule/
 
 External role installed via `roles/requirements.yml`:
 ```yaml
-- src: https://github.com/briankearney/ans_dev_sandbox_role
+- src: https://github.com/McIndi/ans_dev_sandbox_role
   scm: git
   name: ans_dev_sandbox_role
   version: main
@@ -161,4 +161,4 @@ python3 DECRYPT_VAULTED_ITEMS.py --file vars/file.yml --vault-id dev [--decode] 
 2. **Test changes across scenarios**: Run at least `molecule test -s default` before committing
 3. **Lint before commit**: Use `yamllint` and `ansible-lint`
 4. **Document vault changes**: Update vault-id references if modifying encrypted variables
-5. **Keep role external**: Never inline the role code—it lives in `briankearney/ans_dev_sandbox_role` repo
+5. **Keep role external**: Never inline the role code—it lives in `McIndi/ans_dev_sandbox_role` repo

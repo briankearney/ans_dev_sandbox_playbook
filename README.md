@@ -1,9 +1,9 @@
 # ans_dev_sandbox_playbook
 
-[![Molecule Tests](https://github.com/briankearney/ans_dev_sandbox_playbook/actions/workflows/molecule.yml/badge.svg)](https://github.com/briankearney/ans_dev_sandbox_playbook/actions/workflows/molecule.yml)
-[![Unit Tests](https://github.com/briankearney/ans_dev_sandbox_playbook/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/briankearney/ans_dev_sandbox_playbook/actions/workflows/unit-tests.yml)
+[![Molecule Tests](https://github.com/McIndi/ans_dev_sandbox_playbook/actions/workflows/molecule.yml/badge.svg)](https://github.com/McIndi/ans_dev_sandbox_playbook/actions/workflows/molecule.yml)
+[![Unit Tests](https://github.com/McIndi/ans_dev_sandbox_playbook/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/McIndi/ans_dev_sandbox_playbook/actions/workflows/unit-tests.yml)
 
-Lightweight Ansible playbook sandbox for developing and validating the GitHub-hosted role `briankearney/ans_dev_sandbox_role` using environment‑based configuration, Molecule scenarios, and unit tests.
+Lightweight Ansible playbook sandbox for developing and validating the GitHub-hosted role `McIndi/ans_dev_sandbox_role` using environment‑based configuration, Molecule scenarios, and unit tests.
 
 ## Table of Contents
 
@@ -25,9 +25,9 @@ Lightweight Ansible playbook sandbox for developing and validating the GitHub-ho
 
 ## Documentation & Wiki
 For setup, architecture, and usage guides, see:
-- [Getting Started](https://github.com/briankearney/ans_dev_sandbox_playbook/wiki/Getting-Started)
-- [Architecture](https://github.com/briankearney/ans_dev_sandbox_playbook/wiki/Architecture)
-- [Project Wiki](https://github.com/briankearney/ans_dev_sandbox_playbook/wiki) (full index)
+- [Getting Started](https://github.com/McIndi/ans_dev_sandbox_playbook/wiki/Getting-Started)
+- [Architecture](https://github.com/McIndi/ans_dev_sandbox_playbook/wiki/Architecture)
+- [Project Wiki](https://github.com/McIndi/ans_dev_sandbox_playbook/wiki) (full index)
 
 ## Quick Map
 - **Playbook:** `playbooks/sample_playbook.yml`
@@ -42,7 +42,7 @@ For setup, architecture, and usage guides, see:
 ## Quick Start
 
 ```bash
-git clone https://github.com/briankearney/ans_dev_sandbox_playbook.git
+git clone https://github.com/McIndi/ans_dev_sandbox_playbook.git
 cd ans_dev_sandbox_playbook
 python sandbox.py activate
 source .venv/bin/activate
@@ -70,7 +70,7 @@ export ANSIBLE_LOG_PATH=./ansible.log
 ### Step 1: Clone the Repository
 
 ```bash
-git clone https://github.com/briankearney/ans_dev_sandbox_playbook.git
+git clone https://github.com/McIndi/ans_dev_sandbox_playbook.git
 cd ans_dev_sandbox_playbook
 ```
 
@@ -485,7 +485,7 @@ GitHub Actions automatically runs:
 - **Unit tests**: Python unit tests across supported versions
 - **Linting**: Separate lint job validates YAML and Ansible syntax
 
-View results at: [Actions Tab](https://github.com/briankearney/ans_dev_sandbox_playbook/actions)
+View results at: [Actions Tab](https://github.com/McIndi/ans_dev_sandbox_playbook/actions)
 
 ## Vault Decryption Utility
 
@@ -768,7 +768,7 @@ When reporting bugs or issues:
 - [Molecule Documentation](https://ansible.readthedocs.io/projects/molecule/)
 - [Ansible Best Practices](https://docs.ansible.com/ansible/latest/tips_tricks/ansible_tips_tricks.html)
 - [YAML Specification](https://yaml.org/spec/1.2/spec.html)
-- [Project Wiki](https://github.com/briankearney/ans_dev_sandbox_playbook/wiki)
+- [Project Wiki](https://github.com/McIndi/ans_dev_sandbox_playbook/wiki)
 
 ## License
 
