@@ -39,6 +39,9 @@ For setup, architecture, and usage guides, see:
 - **Container build:** `containerfile` (used by `python sandbox.py run` to create `ansible_target`)
 - **Dynamic assets (generated, not committed):** `ssh_keys/`, `vault-pw.txt`, virtualenv `.venv`
 
+## Demo Video
+![Demo Video](demo.gif)
+
 ## Quick Start
 
 ```bash
